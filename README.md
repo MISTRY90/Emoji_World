@@ -28,10 +28,16 @@ Emoji World is a React-based web application that allows users to search, view, 
    cd emoji-world
    
 2. **Install dependencies**:
-npm install or yarn install
+   ```bash
+      npm install
+      # or
+      yarn install
 
-4. **Start the development server**:
-   npm start or yarn start
+3. **Start the development server**:
+   ```bash
+   npm start
+   #or
+   yarn start
 
 5. **Open the app in your browser at http://localhost:3000**.
 
