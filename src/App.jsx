@@ -1,48 +1,68 @@
-import { useState, useEffect } from "react";
-import Header from "./components/Header";
-import { getEmoji } from "./services/service";
-import "./App.css";
-import EmojiGrid from "./components/Emojigrid";
+import React, { useEffect, useState } from 'react';
+import { Container, Grid, CircularProgress, Typography, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { fetchEmojis } from './services/service';
 
 function App() {
   const [emojis, setEmojis] = useState([]);
-  const [search, setSearch] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getEmoji();
-        const filteredEmojis = data.filter((emoji) =>
-          emoji.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setEmojis(filteredEmojis);
-      } catch (error) {
-        console.error(error.message);
-      }
+    const loadEmojis = async () => {
+      const data = await fetchEmojis();
+      setEmojis(data);
+      setLoading(false);
     };
-    if (isSubmitted) {
-      fetchData();
-    }
-  }, [search, isSubmitted]);
+    loadEmojis();
+  }, []);
 
+  const filteredEmojis = emojis.filter((emoji) =>
+    emoji.annotation.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  function handleSearchSubmit(query) {
-    setSearch(query);
-    setIsSubmitted(true);
-  }
-
-  function handleCopy(emoji) {
-    navigator.clipboard.writeText(emoji);
-    alert(`Copied emoji: ${emoji}`);
-  }
   return (
-    <div className="app">
-      <Header onSubmit={handleSearchSubmit} />
-      {isSubmitted && (
-          <EmojiGrid emojis={emojis} onCopy={handleCopy} />
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Typography variant="h3" align="center" gutterBottom>
+        Emoji World
+      </Typography>
+
+      <TextField
+        fullWidth
+        placeholder="Search emojis..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mb: 4 }}
+      />
+
+      {loading ? (
+        <CircularProgress sx={{ display: 'block', margin: '0 auto' }} />
+      ) : filteredEmojis.length === 0 ? (
+        <Typography variant="body1" align="center" sx={{ mt: 4 }}>
+          No emojis found for "{searchQuery}". Try another search!
+        </Typography>
+      ) : (
+        <Grid container spacing={2}>
+          {filteredEmojis.map((emoji) => (
+            <Grid item xs={4} sm={3} md={2} key={emoji.hexcode}>
+              <Typography variant="h4" align="center">
+                {String.fromCodePoint(parseInt(emoji.hexcode, 16))}
+              </Typography>
+              <Typography variant="caption" align="center" display="block">
+                {emoji.annotation}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
       )}
-    </div>
+    </Container>
   );
 }
 
