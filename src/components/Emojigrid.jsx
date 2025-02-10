@@ -1,26 +1,26 @@
-import EmojiCard from "./EmojiCard";
+import React from 'react';
+import Masonry from '@mui/lab/Masonry';
+import EmojiCard from './EmojiCard';
 import '../App.css';
 
 export default function EmojiGrid({ emojis, onCopy }) {
-  if (!emojis.length) {
-    return <div>No emojis found. Try a different search term.</div>;
+  if (!emojis || emojis.length === 0) {
+    return (
+      <div className="no-results">
+        No emojis found. Try a different search term.
+      </div>
+    );
   }
 
   return (
-    <div className="emoji-grid">
-      {emojis.map((emoji, index) => {
-        // Extract emoji from Unicode value
-        const emojiChar = String.fromCodePoint(parseInt(emoji.unicode[0].replace('U+', ''), 16));
-
-        return (
-          <EmojiCard
-            key={emoji.name || index}
-            emoji={emojiChar} // Pass rendered emoji directly
-            name={emoji.name}
-            onCopy={onCopy}
-          />
-        );
-      })}
-    </div>
+    <Masonry columns={{ xs: 3, sm: 4, md: 5, lg: 6 }} spacing={2} className="emoji-grid">
+      {emojis.map((emoji, index) => (
+        <EmojiCard
+          key={emoji.codePoint || index}
+          emoji={emoji.character}
+          onCopy={onCopy}
+        />
+      ))}
+    </Masonry>
   );
 }

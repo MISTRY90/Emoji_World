@@ -1,68 +1,95 @@
+// src/App.js
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, CircularProgress, Typography, TextField, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Container, CircularProgress } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import Header from './components/Header';
+import EmojiGrid from './components/EmojiGrid';
+import theme from './themes';
 import { fetchEmojis } from './services/service';
+import Fuse from 'fuse.js';
+import './App.css';
 
 function App() {
   const [emojis, setEmojis] = useState([]);
+  const [filteredEmojis, setFilteredEmojis] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [fuse, setFuse] = useState(null);
 
+  // Fetch emojis from the API
   useEffect(() => {
     const loadEmojis = async () => {
       const data = await fetchEmojis();
       setEmojis(data);
+      setFilteredEmojis(data);
       setLoading(false);
     };
     loadEmojis();
   }, []);
 
-  const filteredEmojis = emojis.filter((emoji) =>
-    emoji.annotation.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Initialize Fuse when emojis data is available
+  // Initialize Fuse with updated options
+useEffect(() => {
+  if (emojis.length > 0) {
+    const options = {
+      keys: [
+        { name: 'unicodeName', weight: 0.7 },
+        { name: 'slug', weight: 0.3 },
+      ],
+      threshold: 0.2,
+      includeScore: true,
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+    };
+    setFuse(new Fuse(emojis, options));
+  }
+}, [emojis]);
+
+// Updated handleSearch function
+const handleSearch = (query) => {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (normalizedQuery === '') {
+    setFilteredEmojis(emojis);
+  } else if (fuse) {
+    const results = fuse.search(normalizedQuery);
+
+    // Prioritize exact matches
+    const exactMatches = results.filter((result) => {
+      const name = result.item.unicodeName.toLowerCase();
+      const slug = result.item.slug.toLowerCase();
+      return name.includes(normalizedQuery) || slug.includes(normalizedQuery);
+    });
+
+    // Sort remaining results by score
+    const otherResults = results
+      .filter((result) => !exactMatches.includes(result))
+      .sort((a, b) => a.score - b.score);
+
+    // Combine exact matches and other results
+    const sortedResults = [...exactMatches, ...otherResults].map((result) => result.item);
+    setFilteredEmojis(sortedResults);
+  }
+};
+
+  // Callback to copy the emoji to the clipboard
+  const handleCopy = (emojiChar) => {
+    navigator.clipboard.writeText(emojiChar);
+    alert(`Copied ${emojiChar} to clipboard!`);
+  };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Typography variant="h3" align="center" gutterBottom>
-        Emoji World
-      </Typography>
-
-      <TextField
-        fullWidth
-        placeholder="Search emojis..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        sx={{ mb: 4 }}
-      />
-
-      {loading ? (
-        <CircularProgress sx={{ display: 'block', margin: '0 auto' }} />
-      ) : filteredEmojis.length === 0 ? (
-        <Typography variant="body1" align="center" sx={{ mt: 4 }}>
-          No emojis found for "{searchQuery}". Try another search!
-        </Typography>
-      ) : (
-        <Grid container spacing={2}>
-          {filteredEmojis.map((emoji) => (
-            <Grid item xs={4} sm={3} md={2} key={emoji.hexcode}>
-              <Typography variant="h4" align="center">
-                {String.fromCodePoint(parseInt(emoji.hexcode, 16))}
-              </Typography>
-              <Typography variant="caption" align="center" display="block">
-                {emoji.annotation}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
-      )}
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="md">
+        <Header onSubmit={handleSearch} />
+        {loading ? (
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <EmojiGrid emojis={filteredEmojis} onCopy={handleCopy} />
+        )}
+      </Container>
+    </ThemeProvider>
   );
 }
 

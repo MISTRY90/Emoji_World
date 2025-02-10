@@ -1,16 +1,16 @@
+// src/components/SearchBar.js
+import React, { useState } from 'react';
 import '../App.css';
-import { useState } from 'react';
 
-export default function SearchBar({onSearch}){
-  
-const [inputValue, setInputValue] = useState("");
-  
+export default function SearchBar({ onSearch }) {
+  const [inputValue, setInputValue] = useState('');
 
-  function handleInputChange(e){
+  function handleInputChange(e) {
     setInputValue(e.target.value);
   }
-  function handleFormSubmit(event){
-    event.preventDefault();
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
     onSearch(inputValue);
   }
 

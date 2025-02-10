@@ -4,14 +4,14 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#ff6f61', // Emoji-like orange
+      main: '#ff6f61',
     },
     secondary: {
-      main: '#4caf50', // Green for accents
+      main: '#4caf50',
     },
   },
   typography: {
-    fontFamily: '"Comic Sans MS", cursive, sans-serif', // Fun font for emojis
+    fontFamily: '"Comic Sans MS", cursive, sans-serif',
   },
 });
 

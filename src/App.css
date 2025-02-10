@@ -1,145 +1,98 @@
-/* Global reset */
-* {
-  padding: 0;
+/* src/App.css */
+body {
   margin: 0;
-  box-sizing: border-box;
+  padding: 0;
+  background-color: #f7f7f7;
+  background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: 'Lora', serif;
 }
-
-/* App container */
-.app {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column; /* Stack elements vertically */
-  padding: 20px;
-  overflow: hidden; /* Prevent scrollbars */
-}
-
-/* Header */
+/* Header styling */
 .header {
-  text-align: center;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px 10px 0 0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
 .header h1 {
-  font-size: 3rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 2.5rem;
   color: #333;
-  margin-bottom: 20px;
+  font-weight: 600;
 }
 
-/* Search bar */
+/* Search bar styling */
 .searchbar {
   display: flex;
-  justify-content: center;
-  gap: 15px;
   width: 100%;
   max-width: 600px;
-  margin-top: 10px;
+  margin-top: 1.5rem;
 }
 
 .search-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #333;
-  transition: border 0.3s;
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
 }
 
 .search-input:focus {
-  border-color: #007bff;
-  outline: none;
+  border-color: #ff6f61;
 }
 
 .search-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  background-color: #ff6f61;
+  color: #fff;
+  border-radius: 0 8px 8px 0;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-/* Emoji grid */
-.emoji-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  width: 100%;
-  max-width: 1200px;
-}
-
-/* Emoji card */
-.grid-card {
-  padding: 15px;
-  border: 2px solid #ddd;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, border 0.3s;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.grid-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border-color: #007bff;
-}
-
-.emoji {
-  font-size: 3rem;
-  margin-bottom: 10px;
-}
-
-.emoji-name {
+  transition: background-color 0.2s ease;
   font-size: 1rem;
-  color: #555;
   font-weight: 500;
 }
 
-/* Responsive design for small screens */
-@media (max-width: 600px) {
-  .header h1 {
-    font-size: 2.5rem;
-  }
+.search-button:hover {
+  background-color: #e65b50;
+}
 
-  .searchbar {
-    flex-direction: column;
-    gap: 10px;
-  }
+/* Emoji Card styling */
+.emoji-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 12px !important; /* Rounded corners */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0; /* Subtle border */
+}
 
-  .emoji-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
+.emoji-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
 
-  .grid-card {
-    padding: 12px;
-  }
+/* Masonry grid adjustments */
+.emoji-grid {
+  margin: 0 auto; /* Center the grid */
+  max-width: 1200px; /* Limit maximum width */
+}
 
-  .emoji {
-    font-size: 2.5rem;
-  }
+/* Emoji size */
+.emoji-card h3 {
+  font-size: 3rem; /* Larger emojis */
+  margin: 0;
+  padding: 1rem 0;
+}
+
+/* No results message */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #555;
+  font-size: 1.2rem;
 }
