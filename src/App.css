@@ -2,27 +2,25 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f7f7f7;
-  background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-color: #ffffff;
   font-family: 'Lora', serif;
 }
+
 /* Header styling */
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
+  padding: 1rem 0;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* Search bar styling */
@@ -30,69 +28,64 @@ body {
   display: flex;
   width: 100%;
   max-width: 600px;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .search-input {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px 0 0 8px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
   outline: none;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
 }
 
 .search-input:focus {
-  border-color: #ff6f61;
+  border-color: #999;
 }
 
 .search-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   border: none;
-  background-color: #ff6f61;
+  background-color: #333;
   color: #fff;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 4px 4px 0;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 1rem;
-  font-weight: 500;
 }
 
 .search-button:hover {
-  background-color: #e65b50;
+  background-color: #555;
 }
 
 /* Emoji Card styling */
 .emoji-card {
-  transition: transform 0.2s, box-shadow 0.2s;
-  border-radius: 12px !important; /* Rounded corners */
+  border-radius: 8px;
   background-color: #ffffff;
-  border: 1px solid #e0e0e0; /* Subtle border */
+  border: 1px solid #ccc;
 }
 
 .emoji-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transform: none;
+  box-shadow: none;
 }
 
 /* Masonry grid adjustments */
 .emoji-grid {
-  margin: 0 auto; /* Center the grid */
-  max-width: 1200px; /* Limit maximum width */
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 /* Emoji size */
 .emoji-card h3 {
-  font-size: 3rem; /* Larger emojis */
+  font-size: 2.5rem;
   margin: 0;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 /* No results message */
 .no-results {
   text-align: center;
-  padding: 2rem;
-  color: #555;
-  font-size: 1.2rem;
+  padding: 1rem;
+  color: #777;
+  font-size: 1rem;
 }

@@ -20,7 +20,7 @@ function App() {
     const loadEmojis = async () => {
       const data = await fetchEmojis();
       setEmojis(data);
-      setFilteredEmojis(data);
+      setFilteredEmojis(data.slice(0, 30));
       setLoading(false);
     };
     loadEmojis();
